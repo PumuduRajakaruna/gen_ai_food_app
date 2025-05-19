@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,6 +57,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  late final geminiVisionProModel;
+
+  @override
+  void initState() {
+    geminiVisionProModel = GenerativeModel(
+      model: 'gemini-vision-pro',
+      apiKey: String.fromEnvironment('API_KEY'),
+      safetySettings: [
+        SafetySetting(
+          HarmCategory.harassment,
+          HarmBlockThreshold.high,
+        ),
+        SafetySetting(
+          HarmCategory.hateSpeech,
+          HarmBlockThreshold.high,
+        ),
+      ],
+    );
+    super.initState();
+  }
 
   void _incrementCounter() {
     setState(() {
